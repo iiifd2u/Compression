@@ -24,7 +24,7 @@ examples on Python
    ![](https://github.com/iiifd2u/Compression/blob/jpeg/jpeg/records/downsampling.JPG)
    
 3. примение дискретного косинусного преобразования (ДКП) к одиночным каналам. Для этого изображение делится на квадраты 8х8.
-   Применение дкп - этто приведение к базису особо вида, разложение "функции" на составляющие из гармоничесих функций. При этом
+   Применение дкп - это приведение к базису особо вида, разложение "функции" на составляющие из гармоничесих функций. При этом
    в левом верхнем углу значения изменяются с менее высокими частотами, чем в правом нижнем. Человек более восприимчив к плавным и крупным
    цветовым изменениям, поэтому мы можем безболезненно отбросить некоторую часть высокочастотных значений.
    Приведенное изображение соответсвует базису ДКП-II, разложение по нему можно воспринимать равнозначно утверждению,
@@ -51,7 +51,12 @@ examples on Python
 8. Кодирование этого вектора алгоритмом Хаффмана с особыми условиями
 
 
-Steps:
+Steps (needed to redact):
 1. convert image from RGB to YCrCb color space
 2. downscale Cr and Cb channel 
-3. apply discrete cosine transform (DCT) to single channels
+3. apply discrete cosine transform (DCT) to single channels, so we obtain distribution not by colors, but by frequencies. 
+4. devide this matrix 8x8 to special jpeg-matrix, so as result we make zero many of high-freqs values in DCT matrix and great space economy.
+5. flatten values of result matrix by zig-zag or snake path.
+6. sum frequencies of all this flattened matricies and obtain distribution of frequencies of each value (0 to 256 of FF in hex16)
+7. Apply Huffman algorithm to creat optimal coding table for this data.
+8. Make Huffman codes canonical to economy much more space.
